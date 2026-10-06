@@ -1,88 +1,89 @@
-# Starter — Module 5
+<div align="center">
 
-Ce starter fournit une API minimale instrumentée, un constructeur d'index
-atomique, un gate de livraison, une promotion réversible et les modèles de
-preuve du game day. Il ne constitue pas la solution du brief : les apprenants
-doivent compléter le retrieval, les tableaux de bord, les alertes et le
-runbook.
+# DiagOps M5 — Déployer & observer
 
-## Installation locale
+**Index atomique · gates · Compose · rollback · game day**
 
-Depuis la racine du dépôt pédagogique :
+[![Python](https://img.shields.io/badge/python-3.11+-1d4ed8?style=flat-square)](#démarrage)
+[![Stack](https://img.shields.io/badge/FastAPI_+_Docker-0f766e?style=flat-square)](#carte)
+[![Guide](https://img.shields.io/badge/guide-HTML_schémas-7c3aed?style=flat-square)](docs/comprendre_m5.html)
+
+</div>
+
+---
+
+## Objectif
+
+Passer d’un candidat M4 à une **release contrôlée** : construction d’index,  
+évaluation de gates, promotion réversible, runbook et exercice de crise.
+
+## Statut
+
+| Champ | Valeur |
+|-------|--------|
+| Exercice rollback | Documenté ([rapport](docs/rapport_rollback.md)) |
+| Preuve clé | [`docs/`](docs/) · [`game_day/`](game_day/) · [`pipelines/`](pipelines/) |
+| Suite | [M6](../M6/) |
+
+## Démarrage
 
 ```bash
-python tools/init_module.py M5
 cd work/M5
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.lock
-python -m pytest -q
+python3 -m venv .venv && source .venv/bin/activate
+python3 -m pip install -r requirements.lock
+python3 -m pytest -q
 ```
 
-Sous PowerShell, l'activation est `.venv\Scripts\Activate.ps1`.
-
-## Vérifier l'état de référence
+Index candidat (exemple) :
 
 ```bash
-python pipelines/build_index.py \
+python3 pipelines/build_index.py \
   --manifest ../../data_pack/2026-S1/knowledge/manifest.csv \
   --documents ../../data_pack/2026-S1/knowledge/documents \
   --output artifacts/candidates/local/index.json
-
-python pipelines/evaluate_release.py \
-  --index artifacts/candidates/local/index.json \
-  --metrics ../../data_pack/2026-S1/reference_runs/m4_for_m5/evaluation/metrics_calibration.json \
-  --gates configs/gates.json \
-  --output artifacts/candidates/local/gate_report.json
 ```
 
-## Lancer l'API
-
-```bash
-uvicorn src.app:app --reload
-curl http://127.0.0.1:8000/health/live
-curl http://127.0.0.1:8000/health/ready
-curl http://127.0.0.1:8000/version
-curl http://127.0.0.1:8000/metrics
-```
-
-La variable `DIAGOPS_REFERENCE_MANIFEST` permet de sélectionner un autre
-manifeste. Par défaut, l'API utilise la référence M4 distribuée.
-
-## Lancer la stack conteneurisée
-
-```bash
-docker compose -f deploy/compose.yaml up --build
-```
-
-La stack contient trois responsabilités séparées : construction de l'index,
-API et collecte Prometheus. Le profil par défaut reste local et n'utilise aucun
-service externe.
-
-Les tags d'images servent uniquement à initialiser le laboratoire. Avant toute
-promotion, relevez leurs digests résolus dans `docs/contrat_versions.md` afin
-que la version restaurée soit immuable.
-
-## Structure
+## Données / référence
 
 ```text
-work/M5/
-├── configs/              # gates et release locale
-├── deploy/               # Dockerfile, Compose et Prometheus
-├── pipelines/            # build, évaluation, promotion et rollback
-├── monitoring/           # contrat de métriques et dashboards
-├── src/                  # API et primitives de versionnement
-├── tests/                # smoke tests du starter
-├── docs/                 # modèles des livrables d'exploitation
-├── game_day/             # modèles de préparation et post-incident
-├── artifacts/            # candidats et slots locaux, jamais le data pack
-└── journal_bord.md
+../../data_pack/2026-S1/knowledge/
+../../data_pack/2026-S1/reference_runs/m4_for_m5/
 ```
 
-## Règles
+## Carte
 
-- ne copiez pas le corpus ou les références dans `work/M5/` ;
-- ne promouvez jamais un candidat qui n'a pas un gate `passed` ;
-- conservez la version saine avant toute promotion ;
-- ne placez aucun secret ni contenu documentaire sensible dans les traces ;
-- les scénarios d'incident sont remis séparément par le formateur.
+```text
+M5/
+├── src/app.py           # API instrumentée
+├── pipelines/           # build, evaluate, promote, rollback, CI local
+├── deploy/              # Dockerfile, Compose, Prometheus
+├── configs/gates.json
+├── docs/                # runbook, rollback, guide HTML
+├── game_day/
+└── monitoring/
+```
+
+## Vérifier
+
+```bash
+python3 -m pytest -q
+bash pipelines/ci_local.sh    # si environnement prêt
+```
+
+## Preuves
+
+| Document | Contenu |
+|----------|---------|
+| [docs/comprendre_m5.html](docs/comprendre_m5.html) | Guide visuel |
+| [docs/runbook.md](docs/runbook.md) | Exploitation |
+| [docs/rapport_rollback.md](docs/rapport_rollback.md) | Restauration |
+| [game_day/](game_day/) | Jour J / défense |
+| [veille_diagops/passage_m6.md](veille_diagops/passage_m6.md) | Relais M6 |
+
+## Suite
+
+→ [M6 — Agent, feedback, campagne](../M6/)
+
+---
+
+<div align="center"><sub>DiagOps S04 · work/M5 · README unifié</sub></div>

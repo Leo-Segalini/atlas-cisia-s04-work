@@ -1,86 +1,89 @@
-# Starter — Module 4
+<div align="center">
 
-Ce starter fournit les contrats de données, un retrieval lexical minimal, les
-bornes de l’agent, des tests de sécurité et les modèles documentaires du M4. Il
-ne contient ni modèle entraîné, ni embeddings choisis, ni réponse au brief.
+# DiagOps M4 — Modèle · RAG · Agent
 
-## Installation
+**Classifieur · retrieval lexical/vectoriel · agent une action (lecture seule)**
 
-Depuis la racine du dépôt pédagogique :
+[![Python](https://img.shields.io/badge/python-3.11+-1d4ed8?style=flat-square)](#démarrage)
+[![Stack](https://img.shields.io/badge/sklearn_+_RAG-0f766e?style=flat-square)](#carte)
+[![Décision](https://img.shields.io/badge/décision-adopter_sous_conditions-059669?style=flat-square)](docs/matrice_decision.md)
+
+</div>
+
+---
+
+## Objectif
+
+Concevoir une chaîne **modèle + retrieval + agent borné** : citations, abstention,  
+menaces documentées — sans effet externe, sans régler sur le test scellé.
+
+## Statut
+
+| Champ | Valeur |
+|-------|--------|
+| Décision | **Adopter sous conditions** ([matrice](docs/matrice_decision.md)) |
+| Preuve clé | [`docs/`](docs/) · [`journal_bord.md`](journal_bord.md) |
+| Suite | [M5](../M5/) |
+
+## Démarrage
 
 ```bash
-python tools/init_module.py M4
 cd work/M4
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.lock
-python -m pytest -q
+python3 -m venv .venv && source .venv/bin/activate
+python3 -m pip install -r requirements.lock
+python3 -m pytest -q
 ```
 
-Sous PowerShell, l’activation est `.venv\Scripts\Activate.ps1`.
+```bash
+python3 launch.py --help
+python3 scripts/run_pipeline.py --help
+```
 
 ## Données
 
-Les chemins sont relatifs à `work/M4/` :
-
 ```text
 ../../data_pack/2026-S1/model_eval/sensor_calibration.csv
-../../data_pack/2026-S1/model_eval/sensor_test.csv
-../../data_pack/2026-S1/reference_runs/m3_for_m4/
 ../../data_pack/2026-S1/knowledge/manifest.csv
 ../../data_pack/2026-S1/knowledge/documents/
 ../../data_pack/2026-S1/rag_eval/questions.jsonl
+../../data_pack/2026-S1/reference_runs/m3_for_m4/
 ```
 
-Le test capteur et les labels RAG `test` restent scellés côté formateur. Ils ne
-servent jamais au réglage. `window_id` est la clé de groupe obligatoire pour les
-partitions capteurs.
+> Les jeux `test` scellés restent côté formateur.
 
-## Structure
+## Carte
 
 ```text
-starter/
-├── configs/
-├── notebooks/
-│   └── m4_modele_rag_diagops.ipynb
-├── src/
+M4/
+├── configs/       # model, retrieval
+├── src/           # rag, agent, threats, brief2
+├── docs/          # conception, benchmarks, passage M5
+├── scripts/
 ├── tests/
-├── templates/
-├── approfondissement/
-├── results/
-├── journal_bord.md
-└── requirements.lock
+├── veille_diagops/
+└── notebooks/
 ```
 
-## Notebook de synthèse
-
-Documente les choix techniques, la stack, les données, l'évaluation capteur/RAG et les décisions :
+## Vérifier
 
 ```bash
-cd work/M4
-source .venv/bin/activate
-jupyter lab notebooks/m4_modele_rag_diagops.ipynb
+python3 -m pytest -q
 ```
 
-## Premières vérifications
+## Preuves
 
-```bash
-python -m src.io_contracts \
-  --manifest ../../data_pack/2026-S1/knowledge/manifest.csv \
-  --documents ../../data_pack/2026-S1/knowledge/documents \
-  --questions ../../data_pack/2026-S1/rag_eval/questions.jsonl
-python -m pytest -q
-```
+| Document | Contenu |
+|----------|---------|
+| [docs/matrice_decision.md](docs/matrice_decision.md) | Décision |
+| [docs/protocole_evaluation.md](docs/protocole_evaluation.md) | Protocole |
+| [docs/threat_model.md](docs/threat_model.md) | Menaces |
+| [docs/passage_m5.md](docs/passage_m5.md) | Relais M5 |
+| [veille_diagops/](veille_diagops/) | Veille |
 
-## Travail restant
+## Suite
 
-- geler un protocole et des splits groupés ;
-- construire les features sans utiliser le test ;
-- comparer deux modèles simples à la baseline M3 ;
-- documenter et mesurer un modèle d’embeddings ;
-- comparer sans retrieval, lexical et vectoriel ;
-- produire les réponses citées et les abstentions ;
-- compléter les tests de menaces ;
-- renseigner les modèles de livrables et défendre la décision.
+→ [M5 — Déploiement & observabilité](../M5/)
 
-Les sorties vont dans `results/`. Ne copiez jamais le data pack dans le module.
+---
+
+<div align="center"><sub>DiagOps S04 · work/M4 · README unifié</sub></div>

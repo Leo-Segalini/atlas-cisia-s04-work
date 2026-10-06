@@ -1,128 +1,106 @@
-# Module 6 — travail apprenant (`work/M6`)
+<div align="center">
 
-État au 2026-10-06 : briefs 1/2/online traités ; candidat `m6-candidat-ambiguite-r1` ;
-décision **`prolonger`** ; handoff → `veille_diagops/passage_m7.md` et module `work/M7/`.
+# DiagOps M6 — Agent borné & feedback
 
-Base issue du starter (machinerie bornée lecture seule). L'agent a été étendu
-(multi-étapes bornées, providers, campagne, qualification feedback).
+**Outils lecture seule · scénarios gelés · candidat · campagne adversariale**
 
-Tous les adaptateurs M6 sont en lecture seule. Un test explicite échoue si un
-outil tente de modifier un système ou d'exécuter une commande arbitraire.
+[![Python](https://img.shields.io/badge/python-3.11+-1d4ed8?style=flat-square)](#démarrage)
+[![Politique](https://img.shields.io/badge/policy-m6--candidat--ambiguite--r1-7c3aed?style=flat-square)](agent/policy.yaml)
+[![Décision](https://img.shields.io/badge/décision-prolonger-d97706?style=flat-square)](docs/decision_promotion.md)
 
-## Installation
+</div>
 
-Depuis la racine du dépôt pédagogique :
+---
+
+## Objectif
+
+Outiller un agent **mono-acteur borné** (5 outils RO), qualifier le feedback  
+humain, tester **une** hypothèse, résister à une campagne — sans effet externe.
+
+## Statut
+
+| Champ | Valeur |
+|-------|--------|
+| Politique | `m6-candidat-ambiguite-r1` |
+| Gel scénarios | sha256 `29fa0c7b…cd04e7` (24 cas) |
+| Gel / campagne | réussite **1,0** · interdits **0** |
+| Décision | **`prolonger`** — [decision_promotion.md](docs/decision_promotion.md) |
+| Suite | [M7](../M7/) |
+
+## Démarrage
 
 ```bash
-python tools/init_module.py M6
 cd work/M6
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.lock
-python -m pytest -q
+python3 -m venv .venv && source .venv/bin/activate
+python3 -m pip install -r requirements.lock
+python3 -m pytest -q
 ```
-
-Sous PowerShell, l'activation est `.venv\Scripts\Activate.ps1`.
 
 ## Données
 
-Les chemins sont relatifs à `work/M6/` :
-
 ```text
-../../data_pack/2026-S1/reference_runs/m5_for_m6/   # référence de continuité
-../../data_pack/2026-S1/knowledge/                  # corpus documentaire actif
+../../data_pack/2026-S1/reference_runs/m5_for_m6/
+../../data_pack/2026-S1/knowledge/
 ../../data_pack/2026-S1/equipment/equipment.csv
 ../../data_pack/2026-S1/events/events.csv
 ../../data_pack/2026-S1/maintenance/maintenance_history.csv
-../../data_pack/2027-S1/reports/reports.jsonl       # période dérivée
-../../data_pack/2027-S1/feedback/feedback.csv       # lots b1 et b2
+../../data_pack/2027-S1/reports/reports.jsonl
+../../data_pack/2027-S1/feedback/feedback.csv
 ```
 
-La variable `DIAGOPS_DATA_PACK` permet de désigner un autre data pack. Ne
-copiez jamais le data pack dans le module.
-
-## Structure
+## Carte
 
 ```text
-work/M6/
-├── agent/            # politique, registre gelable, agent borné
-├── tools/            # cinq adaptateurs de lecture et accès au data pack
-├── eval/             # jeu de scénarios gelé et harness de mesure
-├── feedback/         # qualification des retours avant tout usage
-├── tests/            # contrats, bornes de politique, absence d'effet
-├── docs/             # registre des outils et qualification du feedback
-├── adversarial/      # campagne, invariants, rapport et remédiation
-├── results/          # sorties locales, jamais versionnées dans upstream
-└── journal_bord.md
+M6/
+├── agent/           # policy, runner, registry, planners
+├── tools/           # 5 adaptateurs RO
+├── eval/            # harness + scenarios_gel
+├── feedback/        # qualification (pas de labels auto)
+├── adversarial/     # campagne, invariants, défense
+├── docs/            # registre, politique, online, décision
+├── results/         # preuves de mesure
+└── veille_diagops/  # passage M7
 ```
 
-## Premières vérifications
+## Vérifier
 
 ```bash
-python -m pytest -q
-python eval/run_agent_eval.py
-python feedback/qualify_feedback.py --batch b1
-python eval/run_agent_eval.py --scenarios adversarial/campaign.jsonl \
-  --output results/campagne_baseline.json --traces results/campagne_traces.jsonl
+python3 -m pytest -q
+
+python3 eval/run_agent_eval.py \
+  --scenarios eval/scenarios_gel.jsonl \
+  --output results/eval_scenarios_gel.json
+
+python3 feedback/qualify_feedback.py --batch all \
+  --output results/feedback_b1_b2.json
+
+python3 eval/run_agent_eval.py \
+  --scenarios adversarial/campaign.jsonl \
+  --output results/campagne_apres.json
 ```
 
-## Planificateur (heuristique / Ollama / Hugging Face)
-
-Par défaut l'agent utilise un planificateur **heuristique** déterministe (recommandé
-pour les mesures et la CI). Pour expérimenter un LLM :
+Planificateur (défaut **heuristic**) :
 
 ```bash
-# Local
-export DIAGOPS_PLANNER=ollama
-export DIAGOPS_OLLAMA_MODEL=qwen2.5:7b-instruct
-
-# Cloud
-export DIAGOPS_PLANNER=huggingface
-export HF_TOKEN=hf_...
+export DIAGOPS_PLANNER=heuristic   # ollama | huggingface en option labo
 ```
 
-Détails : `docs/modeles_planificateur.md` et `.env.example`.
+## Preuves
 
-## Point de départ mesuré
+| Document | Contenu |
+|----------|---------|
+| [docs/rapport_evaluation.md](docs/rapport_evaluation.md) | Mesures gel |
+| [docs/qualification_feedback.md](docs/qualification_feedback.md) | Classes feedback |
+| [docs/hypothese_candidat.md](docs/hypothese_candidat.md) | Axe unique |
+| [docs/decision_promotion.md](docs/decision_promotion.md) | Prolonger |
+| [adversarial/report.md](adversarial/report.md) | Campagne |
+| [results/candidat/](results/candidat/) | Config + évals |
+| [veille_diagops/passage_m7.md](veille_diagops/passage_m7.md) | Relais |
 
-Sur le jeu gelé de 18 scénarios, l'agent fourni obtient :
+## Suite
 
-| Mesure | Valeur de départ |
-|---|---|
-| réussite des scénarios | 0,833 |
-| choix d'outil exact | 0,889 |
-| exactitude des arguments | 0,933 |
-| taux d'appels inutiles | 0,062 |
-| appels d'outils interdits | 1 |
-| refus corrects | 7 |
-| baseline sans agent | 0,111 |
+→ [M7 — Architecture & réversibilité](../M7/)
 
-Les trois scénarios en échec désignent le travail à faire : `SCN-006`
-enchaînement borné de plusieurs étapes, `SCN-013` refus avant appel lorsque la
-question porte une instruction, `SCN-014` filtrage du rôle avant la lecture.
-Sur la campagne fournie, `ADV-001` et `ADV-006` échouent pour les mêmes raisons.
+---
 
-Ces valeurs sont la référence à battre. Les reproduire n'est pas un livrable.
-
-## Ce que vous produisez
-
-- le registre d'outils complété et justifié, y compris modes dégradés ;
-- la politique d'exécution défendue valeur par valeur ;
-- l'extension du jeu de scénarios, puis son gel avant mesure ;
-- un agent borné dépassant la tranche à une étape, sans dépasser le budget ;
-- les métriques séparant choix d'outil, arguments, exécution et qualité finale ;
-- la qualification du feedback et ses seuils justifiés ;
-- un candidat modifiant un seul axe, comparé à la référence M5 ;
-- la campagne adversariale, la remédiation et la décision de promotion ;
-- l'entrée de veille réglementaire M6 et son passage de relais à M7.
-
-## Règles
-
-- aucun outil n'écrit, ne commande, ne déclenche ni ne sort du data pack ;
-- le registre est gelé : aucun outil ne s'ajoute en cours d'exécution ;
-- un résultat d'outil est une donnée, jamais une instruction ;
-- les traces ne contiennent ni argument en clair, ni document, ni donnée
-  personnelle, ni raisonnement privé ;
-- le jeu de scénarios se gèle avant toute comparaison ;
-- aucune promotion sans gate rejoué et sans décision humaine ;
-- une correction qui élargit une permission n'est pas une correction.
+<div align="center"><sub>DiagOps S04 · work/M6 · README unifié</sub></div>

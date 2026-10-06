@@ -1,131 +1,79 @@
-# Starter — Module 2
+<div align="center">
 
-Ce starter fournit des fonctions de chargement, un exemple de pipeline, le
-format de quarantaine, des tests d'exemple et les notebooks présentiel et
-online. Il ne
-constitue pas une architecture imposée et ne contient ni les règles métier
-complètes ni la liste des anomalies injectées.
+# DiagOps M2 — Qualité & pipeline données
 
-## Installation
+**Validation · quarantaine · statistiques · PII**
 
-Depuis `work/M2/` après `python tools/init_module.py M2`, ou depuis
-`M2/starter/` pour vérifier le starter de référence :
+[![Python](https://img.shields.io/badge/python-3.11+-1d4ed8?style=flat-square)](#démarrage)
+[![Stack](https://img.shields.io/badge/pandas_+_validation-0f766e?style=flat-square)](#carte)
+[![CI](https://img.shields.io/badge/CI-workflow_M2-64748b?style=flat-square)](.github/workflows/m2-qualification.yml)
+
+</div>
+
+---
+
+## Objectif
+
+Charger les tables maintenance, **qualifier** les anomalies, isoler en quarantaine  
+et produire un audit statistique défendable avant la suite multisource (M3).
+
+## Statut
+
+| Champ | Valeur |
+|-------|--------|
+| Livrable | Pipeline + rapports + notebooks |
+| Preuve clé | [`journal_bord.md`](journal_bord.md) · [`reports/`](reports/) · [`output/`](output/) |
+| Suite | [M3](../M3/) |
+
+## Démarrage
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.lock
-```
-
-Sous Windows PowerShell :
-
-```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.lock
+cd work/M2
+python3 -m venv .venv && source .venv/bin/activate
+python3 -m pip install -r requirements.lock
+python3 -m pytest -q
 ```
 
 ## Données
 
-Les trois tables se trouvent dans le `data_pack/` du dépôt :
-
 ```text
-data_pack/2026-S1/equipment/equipment.csv
-data_pack/2026-S1/events/events.csv
-data_pack/2026-S1/maintenance/maintenance_history.csv
+../../data_pack/2026-S1/equipment/equipment.csv
+../../data_pack/2026-S1/events/events.csv
+../../data_pack/2026-S1/maintenance/maintenance_history.csv
 ```
 
-Le présentiel peut aussi utiliser la matrice d'erreurs commune :
+## Carte
 
 ```text
-data_pack/2026-S1/reference_runs/m1_for_m2/analyses/matrice_erreurs_m1.csv
-```
-
-## Structure
-
-```text
-starter/
-├── contracts/
-│   └── schemas.py
+M2/
+├── contracts/     # schémas
+├── scripts/       # qualification / pipeline
+├── output/        # processed, quarantine, reports JSON
+├── reports/       # audit, figures, HTML
 ├── notebooks/
-│   ├── notebook_audit_m2.ipynb
-│   └── m2_statistiques_atlas.ipynb
-├── src/data_pipeline/
-│   ├── __main__.py
-│   ├── cli.py
-│   ├── io.py
-│   ├── quarantine.py
-│   └── validation.py
-├── templates/
-│   ├── audit_report.md
-│   ├── journal_bord.md
-│   └── validation_report.example.json
-├── tests/
-└── requirements.lock
+└── aller_plus_loin/
 ```
 
-## Exemple de démarrage pour le présentiel
-
-Le notebook d'audit reprend la situation professionnelle et les axes du brief
-sans imposer une démarche pas à pas :
+## Vérifier
 
 ```bash
-jupyter lab notebooks/notebook_audit_m2.ipynb
+python3 -m pytest -q
+python3 launch.py --help
 ```
 
-Il fournit le chargement en lecture seule, les cadres du registre de règles et
-de la quarantaine, l'accès à la référence M1 et le canevas des dix réponses.
-Les règles métier, traitements, tests et conclusions restent à construire.
+## Preuves
 
-Le starter propose également une organisation sous forme de pipeline :
+| Chemin | Contenu |
+|--------|---------|
+| [reports/audit_report.md](reports/audit_report.md) | Audit |
+| [output/validation_report.json](output/validation_report.json) | Validation |
+| [journal_bord.md](journal_bord.md) | Décisions |
+| [README_TRAVAIL.md](README_TRAVAIL.md) | Notes |
 
-```bash
-python -m src.data_pipeline --input ../../data_pack/2026-S1 --output ./output
-```
+## Suite
 
-Cette commande illustre une manière d'organiser des contrôles rejouables. Elle
-vérifie que les fichiers sont lisibles, calcule leurs checksums et crée une
-structure de sortie. Le statut `starter_to_complete` indique volontairement
-que le travail n'est pas fini.
+→ [M3 — Multisource & base de données](../M3/)
 
-Vous pouvez compléter cette proposition, l'adapter ou retenir une autre forme
-de travail conforme au brief : notebook accompagné de fonctions, scripts ou
-pipeline. Si vous utilisez le starter, il reste notamment à :
+---
 
-- appliquer les règles du brief ;
-- remplir `quarantine.csv` ;
-- écrire les tables validées dans `output/processed/` ;
-- compléter les résultats de validation ;
-- produire le diagnostic et la décision.
-
-## Vérifications
-
-```bash
-python -m pytest -q
-```
-
-Les tests fournis illustrent le chargement, le format de quarantaine et un
-contrôle de colonnes obligatoires. Ajoutez des tests pour vos règles métier et
-vos cas de rejet.
-
-## Notebook online
-
-```bash
-jupyter lab notebooks/m2_statistiques_atlas.ipynb
-```
-
-Pour vérifier son exécution complète :
-
-```bash
-jupyter nbconvert --to html --execute \
-  notebooks/m2_statistiques_atlas.ipynb \
-  --output m2_statistiques_atlas.html
-```
-
-## Règles de travail
-
-- ne modifiez pas les fichiers de `../../data_pack/` ;
-- écrivez toutes les sorties dans `output/` ;
-- signalez chaque rejet avec une règle et une raison ;
-- conservez un état avant/après pour toute correction ;
-- documentez la méthode qui permet de reproduire le résultat.
+<div align="center"><sub>DiagOps S04 · work/M2 · README unifié</sub></div>

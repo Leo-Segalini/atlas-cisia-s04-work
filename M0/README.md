@@ -1,160 +1,81 @@
-# DiagOps M0 — Intégration d'un modèle sur étagère
+<div align="center">
 
-Application d'assistance au diagnostic de maintenance industrielle (module 0 du cursus Atlas/CISIA). Elle expose une API FastAPI `POST /diagnose`, une interface Streamlit et une page web légère. Le modèle est appelé via l'API Hugging Face Inference (pas de fine-tuning).
+# DiagOps M0 — Intégration modèle
 
-## Prérequis
+**API de diagnostic · Hugging Face Inference · UI Streamlit / HTML**
 
-- Python 3.11 ou supérieur
-- Un token Hugging Face avec accès Inference (`HF_TOKEN`)
-- Les données du dépôt : `data_pack/2026-S1/reports/reports.jsonl`
+[![Python](https://img.shields.io/badge/python-3.11+-1d4ed8?style=flat-square)](#démarrage)
+[![Stack](https://img.shields.io/badge/FastAPI_+_Pydantic-0f766e?style=flat-square)](#carte)
+[![Suite](https://img.shields.io/badge/suite-M1-64748b?style=flat-square)](../M1/)
 
-## Installation
+</div>
 
-Depuis `work/M0/` :
+---
+
+## Objectif
+
+Exposer un assistant de diagnostic maintenance **sans fine-tuning** :  
+`POST /diagnose` + interface opérateur, modèle sur étagère (HF ou baseline locale).
+
+## Statut
+
+| Champ | Valeur |
+|-------|--------|
+| Livrable | API + UI + tests + notebook |
+| Preuve clé | [`evaluation_m0.md`](evaluation_m0.md) · [`notebooks/`](notebooks/) |
+| Suite | [M1 — LoRA](../M1/) |
+
+## Démarrage
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate   # Windows : .venv\Scripts\activate
+cd work/M0
+python3 -m venv .venv && source .venv/bin/activate
 python3 -m pip install -r requirements.txt
-cp .env.example .env
+cp .env.example .env   # renseigner HF_TOKEN si mode cloud
 ```
 
-Éditez `.env` et renseignez votre clé :
+| Variable | Rôle |
+|----------|------|
+| `HF_TOKEN` | Inference API (ne jamais committer) |
+| `HF_MODEL` | ex. `Qwen/Qwen2.5-7B-Instruct` |
+| `DIAGOPS_API_URL` | URL client UI (défaut `http://127.0.0.1:8000`) |
+
+## Données
 
 ```text
-HF_TOKEN=hf_votre_token
-HF_MODEL=Qwen/Qwen2.5-7B-Instruct
-DIAGOPS_API_URL=http://127.0.0.1:8000
+../../data_pack/2026-S1/reports/reports.jsonl
 ```
 
-Ne committez jamais le fichier `.env`.
+## Carte
 
-## Lancement
-
-### API
-
-```bash
-cd work/M0
-source .venv/bin/activate
-uvicorn app.main:app --reload --app-dir .
+```text
+M0/
+├── app/           # FastAPI, schémas, client modèle
+├── ui/            # Streamlit + page HTML
+├── tests/
+├── notebooks/
+└── .env.example
 ```
 
-- Santé : `GET http://127.0.0.1:8000/health`
-- Documentation interactive : `http://127.0.0.1:8000/docs`
-
-### Streamlit
-
-Dans un second terminal :
+## Vérifier
 
 ```bash
-cd work/M0
-source .venv/bin/activate
+python3 -m pytest -q
+uvicorn app.main:app --reload --port 8000
 streamlit run ui/streamlit_app.py
 ```
 
-L'interface charge les rapports du data pack et permet d'en tester plusieurs.
+## Preuves
 
-### Page web
+| Document | Contenu |
+|----------|---------|
+| [evaluation_m0.md](evaluation_m0.md) | Évaluation intégration |
+| [notebooks/m0_integration_diagops.ipynb](notebooks/m0_integration_diagops.ipynb) | Synthèse |
 
-Ouvrez `ui/index.html` dans un navigateur (API démarrée). CORS est ouvert en local pour faciliter les essais.
+## Suite
 
-## Routes API
+→ [M1 — Fine-tuning LoRA](../M1/)
 
-| Méthode | Route | Description |
-|---|---|---|
-| `GET` | `/health` | Santé HTTP du service |
-| `POST` | `/diagnose` | Diagnostic structuré à partir d'un rapport |
-| `GET` | `/docs` | Documentation OpenAPI interactive |
+---
 
-Corps attendu pour `/diagnose` : `report_id`, `technician_note`, `equipment_id` (optionnel).  
-Réponse : contrat DiagOps (`symptom`, `severity`, `failure_hypothesis`, etc.).
-
-## Tests
-
-```bash
-cd work/M0
-source .venv/bin/activate
-PYTHONPATH=. pytest tests/ -v
-```
-
-Les tests API mockent le client HF : ils couvrent le cas nominal (`200`), la note vide (`422`), la config manquante (`503`) et l'échec upstream (`502`).
-
-## Exemple entrée / sortie
-
-Requête :
-
-```json
-{
-  "report_id": "RPT-2026S1-0001",
-  "technician_note": "Pompe P-204 en zone A. Vibration plus forte que d'habitude...",
-  "equipment_id": "EQ-PUMP-001"
-}
-```
-
-Réponse (exemple) :
-
-```json
-{
-  "equipment_id": "EQ-PUMP-001",
-  "symptom": "vibration anormale au démarrage",
-  "severity": "high",
-  "failure_hypothesis": "roulement usé ou désalignement",
-  "recommended_action": "planifier une inspection prioritaire du palier",
-  "confidence": 0.72,
-  "evidence": ["rapport RPT-2026S1-0001"],
-  "requires_human_review": true
-}
-```
-
-## Choix du modèle
-
-| Élément | Détail |
-|---|---|
-| Modèle retenu (M0 défaut) | `Qwen/Qwen2.5-7B-Instruct` via Hugging Face Inference (`MODEL_PROVIDER=hf_api`) |
-| Pourquoi | Extraction JSON structurée en français sans entraînement local |
-| Limites | Non spécialisé DiagOps ; confiance indicative ; revue humaine |
-| Alternatives | Llama/Mistral Instruct ; zero-shot ; **Qwen3-0.6B local ± LoRA (M1)** |
-| Conditions | Token HF ; ou deps torch/transformers/peft pour les providers locaux |
-
-### Providers M1 (`MODEL_PROVIDER`)
-
-| Valeur | Comportement |
-|---|---|
-| `hf_api` | API Hugging Face (défaut, adapté Mac cloud) |
-| `local_baseline` | `Qwen/Qwen3-0.6B` local sans adaptateur |
-| `local_lora` | Même base + `LORA_ADAPTER_PATH` |
-
-Voir `.env.example` pour `LOCAL_MODEL_ID`, `LOCAL_MODEL_REVISION`, `LORA_ADAPTER_PATH`.
-
-## Gestion des erreurs
-
-| Cas | Code |
-|---|---|
-| Entrée invalide / note vide | 422 |
-| `HF_TOKEN` manquant | 503 |
-| Échec HF / JSON invalide | 502 |
-
-## Limites connues
-
-- Le modèle n'est pas spécialisé sur les rapports DiagOps.
-- Les diagnostics peuvent être incomplets ou instables.
-- La confiance reste indicative.
-- La validation humaine reste obligatoire (`requires_human_review` forcé si confiance < 0.6 ou note < 40 caractères).
-- Capteurs, historiques et annotations ne sont pas utilisés (prévus pour les modules suivants).
-- En évaluation réelle, la sévérité tend à rester à `medium` même sur des signaux plus critiques (voir `evaluation_m0.md`).
-
-## Évaluation
-
-Voir [`evaluation_m0.md`](evaluation_m0.md) : cinq rapports du data pack + un cas ambigu ont été évalués le 2026-08-03.
-
-Limites principales observées : sévérité souvent lissée à `medium`, confiance parfois trop élevée hors cas vague, et revue humaine encore nécessaire avant toute décision terrain.
-
-## Notebook de synthèse
-
-Documente les choix techniques, la stack, le contrat de données et l'évaluation :
-
-```bash
-cd work/M0
-source .venv/bin/activate
-jupyter lab notebooks/m0_integration_diagops.ipynb
-```
+<div align="center"><sub>DiagOps S04 · work/M0 · README unifié</sub></div>
