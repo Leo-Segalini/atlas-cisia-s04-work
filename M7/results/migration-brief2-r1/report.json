@@ -1,0 +1,28 @@
+{
+  "cases": {
+    "MIG-ACL-01": {
+      "detail": "révocation appliquée avant scoring SQLite",
+      "document_id": "DOC-CHILL-TEMP-001",
+      "passed": true,
+      "superviseur_hits": [
+        "DOC-DATA-ACCESS-001"
+      ],
+      "technicien_hits": []
+    },
+    "MIG-RB-01": {
+      "corruption_detected": true,
+      "migration_ms": 0.954,
+      "passed": true,
+      "ranking_equal": true,
+      "rollback_equal": true
+    },
+    "MIG-REV-01": {
+      "detail": "read_export refuse status=superseded",
+      "passed": true
+    }
+  },
+  "gel_sha256": "aad26f543ff7a11984877aaa12d2cd8ce8291e1cf829c16c135e8136d13599d2",
+  "source_export_sha256": "12ea939dde7016dccb6cc3a9f718394f80d531542c47db9101fc4448d3ad2da9",
+  "status": "passed",
+  "test_split_used": false
+}

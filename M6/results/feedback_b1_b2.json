@@ -1,0 +1,47 @@
+{
+  "batch": "all",
+  "summary": {
+    "actionable_rate": 0.516,
+    "classes": {
+      "a_investiguer": 12,
+      "actionnable": 64,
+      "non_actionnable": 37,
+      "risque": 11
+    },
+    "distinct_authors": 18,
+    "distinct_reports_covered": 55,
+    "duplicate_rate": 0.145,
+    "feedback_count": 124,
+    "most_active_author_share": 0.089,
+    "risk_rate": 0.089,
+    "top_actionable_themes": [
+      {
+        "count": 8,
+        "theme": "chaque criticite equipement fiche fois oblige"
+      },
+      {
+        "count": 7,
+        "theme": "ambigu deux equipements est famille lorsque"
+      },
+      {
+        "count": 7,
+        "theme": "bon citation citee couvre document etape"
+      },
+      {
+        "count": 6,
+        "theme": "equipe exemple jugee longue nuit par"
+      },
+      {
+        "count": 5,
+        "theme": "consignation diagnostic inspection prealable propose rappeler"
+      }
+    ],
+    "training_data_exported": false,
+    "unlinked_rate": 0.048
+  },
+  "thresholds": {
+    "author_concentration_limit": 0.15,
+    "minimum_actionable_length": 40,
+    "near_duplicate_jaccard": 0.85
+  }
+}

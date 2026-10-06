@@ -1,0 +1,25 @@
+{
+  "candidat_id": "m6-candidat-ambiguite-r1",
+  "date": "2026-09-21",
+  "axe_unique": "politique_refus_identifiant_usage",
+  "reference_agent": "m6-baseline-r1",
+  "reference_m5": "diagops-m5-reference-r1",
+  "feedback_ids": ["FBK-2027S1-0001", "FBK-2027S1-0004"],
+  "policy_file": "results/candidat/policy.yaml",
+  "scenarios_gel": "eval/scenarios_gel.jsonl",
+  "scenarios_gel_sha256": "29fa0c7bcbcf59ad5b2f7cf45f1c8a11a09ec26eb05c371811b69a7177cd04e7",
+  "eval_output": "results/candidat/eval_scenarios_gel.json",
+  "difference_unique": [
+    "stop_reason identifiant_usage avant planification (SCN-009/019)",
+    "garde-fou identifiant_invente sur outils équipement"
+  ],
+  "unchanged": [
+    "allowlist",
+    "budget",
+    "outils",
+    "absence_effet_externe",
+    "jeu_gele"
+  ],
+  "decision": "prolonger",
+  "decision_file": "docs/decision_promotion.md"
+}

@@ -1,0 +1,45 @@
+feedback_id,report_id,batch,author,role,classe,motif,known_report,scale_valid,exact_duplicate_of,near_duplicate_of,personal_data,instruction_attempt,actionable_signal,author_over_represented
+FBK-2027S1-0081,RPT-2027S1-0009,b2,USR-011,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0082,RPT-2027S1-0035,b2,USR-009,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0083,RPT-2027S1-0027,b2,USR-011,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0084,RPT-2027S1-0012,b2,USR-017,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0085,RPT-2027S1-0018,b2,USR-012,superviseur,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0086,RPT-2027S1-0026,b2,USR-012,superviseur,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0087,RPT-2027S1-0036,b2,USR-015,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0088,RPT-2027S1-0047,b2,USR-013,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0089,RPT-2027S1-0045,b2,USR-018,superviseur,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0090,RPT-2027S1-0054,b2,USR-016,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0091,RPT-2027S1-0051,b2,USR-015,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0092,RPT-2027S1-0036,b2,USR-014,technicien,non_actionnable,doublon d'un retour déjà reçu sur le même rapport,True,True,FBK-2027S1-0087,,False,False,True,False
+FBK-2027S1-0093,RPT-2027S1-0058,b2,USR-007,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0094,RPT-2027S1-0011,b2,USR-007,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0095,RPT-2027S1-0033,b2,USR-012,superviseur,non_actionnable,commentaire sans élément mesurable,True,True,,,False,False,False,False
+FBK-2027S1-0096,RPT-2027S1-0051,b2,USR-006,superviseur,non_actionnable,commentaire sans élément mesurable,True,True,,,False,False,False,False
+FBK-2027S1-0097,RPT-2027S1-0057,b2,USR-004,technicien,non_actionnable,commentaire sans élément mesurable,True,True,,,False,False,False,False
+FBK-2027S1-0098,RPT-2027S1-0010,b2,USR-010,technicien,non_actionnable,commentaire sans élément mesurable,True,True,,,False,False,False,False
+FBK-2027S1-0099,RPT-2027S1-0041,b2,USR-001,technicien,non_actionnable,commentaire sans élément mesurable,True,True,,,False,False,False,False
+FBK-2027S1-0100,RPT-2027S1-0015,b2,USR-015,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0101,RPT-2027S1-0032,b2,USR-018,superviseur,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0102,RPT-2027S1-0013,b2,USR-018,superviseur,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0103,RPT-2027S1-0056,b2,USR-003,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0104,RPT-2027S1-0040,b2,USR-011,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0105,RPT-2027S1-0023,b2,USR-010,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0106,RPT-2027S1-0043,b2,USR-005,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0107,RPT-2027S1-0026,b2,USR-012,superviseur,non_actionnable,doublon d'un retour déjà reçu sur le même rapport,True,True,FBK-2027S1-0086,,False,False,True,False
+FBK-2027S1-0108,RPT-2027S1-0040,b2,USR-011,technicien,non_actionnable,doublon d'un retour déjà reçu sur le même rapport,True,True,FBK-2027S1-0104,,False,False,True,False
+FBK-2027S1-0109,RPT-2027S1-9820,b2,USR-003,technicien,a_investiguer,rapport inconnu : lien avec un run non vérifiable,False,True,,,False,False,True,False
+FBK-2027S1-0110,RPT-2027S1-9736,b2,USR-003,technicien,a_investiguer,rapport inconnu : lien avec un run non vérifiable,False,True,,,False,False,True,False
+FBK-2027S1-0111,RPT-2027S1-0006,b2,USR-005,technicien,risque,donnée personnelle identifiante dans le commentaire,True,True,,,True,False,False,False
+FBK-2027S1-0112,RPT-2027S1-0001,b2,USR-008,technicien,risque,donnée personnelle identifiante dans le commentaire,True,True,,,True,False,False,False
+FBK-2027S1-0113,RPT-2027S1-0059,b2,USR-014,technicien,risque,instruction adressée au système,True,True,,,False,True,False,False
+FBK-2027S1-0114,RPT-2027S1-0023,b2,USR-006,superviseur,risque,instruction adressée au système,True,True,,,False,True,True,False
+FBK-2027S1-0115,RPT-2027S1-0036,b2,USR-010,technicien,a_investiguer,note hors échelle ou absente,True,False,,,False,False,True,False
+FBK-2027S1-0116,RPT-2027S1-0030,b2,USR-017,technicien,a_investiguer,note hors échelle ou absente,True,False,,,False,False,True,False
+FBK-2027S1-0117,RPT-2027S1-0013,b2,USR-001,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0118,RPT-2027S1-0035,b2,USR-001,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0119,RPT-2027S1-0059,b2,USR-001,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0120,RPT-2027S1-0049,b2,USR-001,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0121,RPT-2027S1-0031,b2,USR-009,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0122,RPT-2027S1-0031,b2,USR-004,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0123,RPT-2027S1-0022,b2,USR-004,technicien,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False
+FBK-2027S1-0124,RPT-2027S1-0022,b2,USR-012,superviseur,actionnable,"retour lié à un run, précis et mesurable",True,True,,,False,False,True,False

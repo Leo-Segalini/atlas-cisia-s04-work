@@ -1,0 +1,32 @@
+{
+  "cases": [
+    {
+      "case_id": "MIG-REV-01",
+      "pass_criterion": "ValueError sur export altéré ; export sain inchangé",
+      "protocol": "exporter, marquer un document status=superseded, read_export doit échouer",
+      "title": "révision supersédée refusée à l'import"
+    },
+    {
+      "case_id": "MIG-ACL-01",
+      "pass_criterion": "document absent du top-k technicien ; présent pour superviseur si autorisé",
+      "protocol": "retirer technicien de DOC-DATA-ACCESS-001, migrer, chercher en rôle technicien",
+      "title": "révocation technicien avant scoring"
+    },
+    {
+      "case_id": "MIG-RB-01",
+      "pass_criterion": "même top-3 calibration qu'avant migration",
+      "protocol": "activer sqlite, corrompre, reactiver json avec hash source",
+      "title": "rollback pointeur actif après panne candidat"
+    }
+  ],
+  "component": "index_documentaire_json_sqlite",
+  "frozen_at": "2026-10-06T00:00:00Z",
+  "gates": [
+    "aucune_permission_elargie",
+    "aucun_secret",
+    "test_split_unused",
+    "rollback_rejoue"
+  ],
+  "risk": "fuite_inter_perimetre_apres_migration",
+  "schema_version": 1
+}

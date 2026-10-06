@@ -1,0 +1,47 @@
+{
+  "batch": "b2",
+  "summary": {
+    "actionable_rate": 0.636,
+    "classes": {
+      "a_investiguer": 4,
+      "actionnable": 28,
+      "non_actionnable": 8,
+      "risque": 4
+    },
+    "distinct_authors": 17,
+    "distinct_reports_covered": 33,
+    "duplicate_rate": 0.068,
+    "feedback_count": 44,
+    "most_active_author_share": 0.114,
+    "risk_rate": 0.091,
+    "top_actionable_themes": [
+      {
+        "count": 5,
+        "theme": "ambigu deux equipements est famille lorsque"
+      },
+      {
+        "count": 3,
+        "theme": "consignation diagnostic inspection prealable propose rappeler"
+      },
+      {
+        "count": 3,
+        "theme": "equipe exemple jugee longue nuit par"
+      },
+      {
+        "count": 2,
+        "theme": "bon citation citee couvre document etape"
+      },
+      {
+        "count": 2,
+        "theme": "conduite controle froid groupe mentionne par"
+      }
+    ],
+    "training_data_exported": false,
+    "unlinked_rate": 0.045
+  },
+  "thresholds": {
+    "author_concentration_limit": 0.15,
+    "minimum_actionable_length": 40,
+    "near_duplicate_jaccard": 0.85
+  }
+}

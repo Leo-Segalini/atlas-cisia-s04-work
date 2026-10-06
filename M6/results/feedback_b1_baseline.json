@@ -1,0 +1,47 @@
+{
+  "batch": "b1",
+  "summary": {
+    "actionable_rate": 0.487,
+    "classes": {
+      "a_investiguer": 8,
+      "actionnable": 39,
+      "non_actionnable": 26,
+      "risque": 7
+    },
+    "distinct_authors": 18,
+    "distinct_reports_covered": 42,
+    "duplicate_rate": 0.15,
+    "feedback_count": 80,
+    "most_active_author_share": 0.1,
+    "risk_rate": 0.087,
+    "top_actionable_themes": [
+      {
+        "count": 6,
+        "theme": "chaque criticite equipement fiche fois oblige"
+      },
+      {
+        "count": 5,
+        "theme": "bon citation citee couvre document etape"
+      },
+      {
+        "count": 4,
+        "theme": "ambigu deux equipements est famille lorsque"
+      },
+      {
+        "count": 4,
+        "theme": "alors applicable cite consignation depuis est"
+      },
+      {
+        "count": 3,
+        "theme": "affiche dernieres historique insuffisant interventions juger"
+      }
+    ],
+    "training_data_exported": false,
+    "unlinked_rate": 0.05
+  },
+  "thresholds": {
+    "author_concentration_limit": 0.15,
+    "minimum_actionable_length": 40,
+    "near_duplicate_jaccard": 0.85
+  }
+}
